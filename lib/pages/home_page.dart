@@ -45,9 +45,10 @@ class HomePage extends StatelessWidget {
 
             ElevatedButton(
               onPressed: () {
+                print(Timestamp.now().toDate());
                 userReference
                     .where("age", isGreaterThan: 30)
-                    .where("createdAt", isEqualTo: Timestamp.now())
+                    .where("createdAt", isLessThan: Timestamp.now())
                     .get()
                     .then((value) {
                       List<QueryDocumentSnapshot> docs = value.docs;
@@ -66,6 +67,47 @@ class HomePage extends StatelessWidget {
                     });
               },
               child: Text("Obtener info filtrada"),
+            ),
+
+            ElevatedButton(
+              onPressed: () {
+                // AGREGAR UN USUARIO DESDE UN MAPA
+                // userReference
+                //     .add({
+                //       "name": "Ana",
+                //       "createdAr": Timestamp.now(),
+                //       "email": "anita123@gmail.com",
+                //       "age": 45,
+                //     })
+                //     .then((value) {
+                //       print(value);
+                //       print(value.id);
+                //       print("Uusario agregado correctamente");
+                //     })
+                //     .catchError((error) {
+                //       print("Error al agregar el usuario: $error");
+                //     });
+
+                // AGREGAR UN USUARIO DESDE UN USERMODEL
+                UserModel newUser = UserModel(
+                  name: "Carlos",
+                  email: "CARLITOS@12.COM",
+                  createdAt: DateTime.now(),
+                  age: 15,
+                );
+
+                userReference
+                    .add(newUser.toMap())
+                    .then((value) {
+                      print(value);
+                      print(value.id);
+                      print("Usuario registrado correctamente");
+                    })
+                    .catchError((error) {
+                      print("Error al agregar el usuario: $error");
+                    });
+              },
+              child: Text("Agregar un usuario"),
             ),
           ],
         ),

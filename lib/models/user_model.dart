@@ -24,6 +24,11 @@ class UserModel {
   }
 
   Map<String, dynamic> toMap() {
-    return {"name": name, "email": email, "createdAt": createdAt, "age": age};
+    return {
+      "name": name,
+      "email": email,
+      "createdAt": Timestamp.fromDate(createdAt),
+      "age": age,
+    };
   }
 }
