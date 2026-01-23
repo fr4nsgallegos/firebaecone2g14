@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebaseconn2g14/models/user_model.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +33,11 @@ class HomePage extends StatelessWidget {
                       doc.data() as Map<String, dynamic>,
                     );
                   }).toList();
+
+                  // CONSULTA DE UN DOCUMENTO EN ESPECÍFICO
+                  // userReference.doc("uid123").get().then((value) {
+                  //   print(value.data());
+                  // });
 
                   userModelList.forEach((usuario) {
                     print("---------------------");
@@ -108,6 +115,43 @@ class HomePage extends StatelessWidget {
                     });
               },
               child: Text("Agregar un usuario"),
+            ),
+
+            ElevatedButton(
+              onPressed: () {
+                UserModel userModel = UserModel(
+                  name: "Melisa",
+                  email: "Llosa",
+                  createdAt: DateTime.now(),
+                  age: 35,
+                );
+
+                userReference
+                    .doc("uid999")
+                    // .set({"map": "123"}) //chanca la info si encuentra el id
+                    .set(userModel.toMap())
+                    .then((value) {
+                      print("Usuario agregado con el id específico");
+                    })
+                    .catchError((error) {
+                      print("Error al agregar el usuario: $error");
+                    });
+              },
+              child: Text("Inserción con id específico"),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                userReference
+                    .doc("uid999")
+                    .update({"nationality": "peruana"})
+                    .then((value) {
+                      print("uusuario actuiualizado correctamente");
+                    })
+                    .catchError((error) {
+                      print("Error al actualizar el usuario: $error");
+                    });
+              },
+              child: Text("Actualizar usuario"),
             ),
           ],
         ),
