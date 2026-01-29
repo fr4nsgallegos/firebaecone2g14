@@ -77,6 +77,11 @@ class _Maps1PageState extends State<Maps1Page> {
                   Marker newMarker = Marker(
                     markerId: MarkerId(markers.length.toString()),
                     position: latLng,
+                    infoWindow: InfoWindow(
+                      title: "Marcador: ${markers.length}",
+                      snippet:
+                          "Lat: ${latLng.latitude} - Long: ${latLng.longitude}",
+                    ),
                   );
                   markers.add(newMarker);
                   setState(() {});
