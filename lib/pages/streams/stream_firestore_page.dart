@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebaseconn2g14/models/user_model.dart';
+import 'package:firebaseconn2g14/pages/streams/contador_stream_controller_page.dart';
 import 'package:flutter/material.dart';
 
 class StreamFirestorePage extends StatelessWidget {
@@ -14,6 +15,14 @@ class StreamFirestorePage extends StatelessWidget {
         fromFirestore: (snapshot, options) => UserModel.fromFirestore(snapshot),
         toFirestore: (value, options) => value.toMap(),
       );
+
+  final settingsRef = FirebaseFirestore.instance
+      .collection("settings")
+      .doc("app");
+
+  Stream<DocumentSnapshot<Map<String, dynamic>>> watchSettings() {
+    return settingsRef.snapshots();
+  }
 
   Stream<QuerySnapshot<UserModel>> watchUsers() {
     return usersRefTipada.orderBy("createdAt", descending: true).snapshots();
@@ -52,6 +61,7 @@ class StreamFirestorePage extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Expanded(
+              flex: 6,
               child: StreamBuilder(
                 // stream: userReference.snapshots(),
                 stream: watchUsers(),
@@ -109,6 +119,44 @@ class StreamFirestorePage extends StatelessWidget {
                   //   },
                   // );
                 },
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: StreamBuilder(
+                stream: watchSettings(),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (!snapshot.hasData)
+                    return Center(child: CircularProgressIndicator());
+                  final data = snapshot.data!.data();
+                  if (data == null) return Text("No existe el documento");
+
+                  final enMantenimiento =
+                      (data["enMantenimiento"] ?? false) as bool;
+
+                  return Text(
+                    "Modo de mantenimiento: $enMantenimiento",
+                    style: TextStyle(fontSize: 20),
+                  );
+                },
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: Column(
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ContadorStreamControllerPage(),
+                        ),
+                      );
+                    },
+                    child: Text("Contador StreamcController"),
+                  ),
+                ],
               ),
             ),
           ],
