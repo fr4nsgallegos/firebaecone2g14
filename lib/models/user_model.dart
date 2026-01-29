@@ -13,6 +13,15 @@ class UserModel {
     required this.age,
   });
 
+  Map<String, dynamic> toMap() {
+    return {
+      "name": name,
+      "email": email,
+      "createdAt": Timestamp.fromDate(createdAt),
+      "age": age,
+    };
+  }
+
   factory UserModel.fromMap(Map<String, dynamic> map) {
     Timestamp timeFirestore = map["createdAt"] ?? Timestamp.now();
     return UserModel(
@@ -22,13 +31,13 @@ class UserModel {
       createdAt: timeFirestore.toDate(),
     );
   }
-
-  Map<String, dynamic> toMap() {
-    return {
-      "name": name,
-      "email": email,
-      "createdAt": Timestamp.fromDate(createdAt),
-      "age": age,
-    };
+  factory UserModel.fromFirestore(DocumentSnapshot<Map<String, dynamic>> doc) {
+    final data = doc.data()!;
+    return UserModel(
+      name: (data["name"] ?? "") as String,
+      email: (data["email"] ?? "") as String,
+      age: (data["age"] ?? "") as int,
+      createdAt: (data["createdAt"] as Timestamp?)?.toDate() ?? DateTime.now(),
+    );
   }
 }

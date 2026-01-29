@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebaseconn2g14/models/user_model.dart';
+import 'package:firebaseconn2g14/pages/stream_firestore_page.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -152,6 +153,31 @@ class HomePage extends StatelessWidget {
                     });
               },
               child: Text("Actualizar usuario"),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                userReference
+                    .doc("uid999")
+                    .delete()
+                    .then((value) {
+                      print("Usuario eliminado correctamente");
+                    })
+                    .catchError((error) {
+                      print("error al eliminar usuario ");
+                    });
+              },
+              child: Text("Eliminar un  usuario"),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => StreamFirestorePage(),
+                  ),
+                );
+              },
+              child: Text("Stream pAGE"),
             ),
           ],
         ),
