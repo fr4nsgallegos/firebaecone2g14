@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebaseconn2g14/models/user_model.dart';
 import 'package:firebaseconn2g14/pages/streams/contador_stream_controller_page.dart';
+import 'package:firebaseconn2g14/pages/streams/multiple_stream_controller_page.dart';
 import 'package:flutter/material.dart';
 
 class StreamFirestorePage extends StatelessWidget {
@@ -155,6 +156,17 @@ class StreamFirestorePage extends StatelessWidget {
                       );
                     },
                     child: Text("Contador StreamcController"),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MultipleStreamControllerPage(),
+                        ),
+                      );
+                    },
+                    child: Text("Múltiples  StreamcController"),
                   ),
                 ],
               ),
