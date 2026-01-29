@@ -2,8 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebaseconn2g14/models/user_model.dart';
 import 'package:firebaseconn2g14/pages/streams/contador_stream_controller_page.dart';
 import 'package:firebaseconn2g14/pages/streams/multiple_stream_controller_page.dart';
+import 'package:firebaseconn2g14/pages/streams/temporizador_stream_page.dart';
 import 'package:flutter/material.dart';
 
+// OJO AQUI FALTA DEFINIR LOS CLOSE APRA CADA CONTROLADOR
 class StreamFirestorePage extends StatelessWidget {
   StreamFirestorePage({super.key});
 
@@ -143,7 +145,7 @@ class StreamFirestorePage extends StatelessWidget {
               ),
             ),
             Expanded(
-              flex: 1,
+              flex: 3,
               child: Column(
                 children: [
                   ElevatedButton(
@@ -167,6 +169,17 @@ class StreamFirestorePage extends StatelessWidget {
                       );
                     },
                     child: Text("Múltiples  StreamcController"),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => TemporizadorStreamPage(),
+                        ),
+                      );
+                    },
+                    child: Text("Temporizador Stream Page"),
                   ),
                 ],
               ),
