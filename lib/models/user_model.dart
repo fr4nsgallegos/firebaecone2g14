@@ -1,12 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserModel {
+  String? id;
   String name;
   String email;
   DateTime createdAt;
   int age;
 
   UserModel({
+    this.id,
     required this.name,
     required this.email,
     required this.createdAt,
@@ -31,9 +33,12 @@ class UserModel {
       createdAt: timeFirestore.toDate(),
     );
   }
+
   factory UserModel.fromFirestore(DocumentSnapshot<Map<String, dynamic>> doc) {
     final data = doc.data()!;
+    String id = doc.id;
     return UserModel(
+      id: id,
       name: (data["name"] ?? "") as String,
       email: (data["email"] ?? "") as String,
       age: (data["age"] ?? "") as int,

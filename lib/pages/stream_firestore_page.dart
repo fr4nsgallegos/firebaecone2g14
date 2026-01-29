@@ -30,6 +30,14 @@ class StreamFirestorePage extends StatelessWidget {
     await usersRefTipada.add(user);
   }
 
+  Future<void> updateUser(String docId) async {
+    await usersRefTipada.doc(docId).update({"name": "Nombre actualizado"});
+  }
+
+  Future<void> deteleUser(String docId) async {
+    await usersRefTipada.doc(docId).delete();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,6 +77,23 @@ class StreamFirestorePage extends StatelessWidget {
                       return ListTile(
                         leading: CircleAvatar(child: Text(u.name[0])),
                         title: Text(u.name),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                updateUser(u.id!);
+                              },
+                              icon: Icon(Icons.edit),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                deteleUser(u.id!);
+                              },
+                              icon: Icon(Icons.delete),
+                            ),
+                          ],
+                        ),
                         subtitle: Text(
                           "${u.email} / ${u.createdAt.toString().substring(0, 11)}",
                         ),
