@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebaseconn2g14/models/user_model.dart';
 import 'package:firebaseconn2g14/pages/future_list_page.dart';
 import 'package:firebaseconn2g14/pages/maps/maps1_page.dart';
+import 'package:firebaseconn2g14/pages/maps/maps2_page.dart';
 import 'package:firebaseconn2g14/pages/streams/stream_firestore_page.dart';
 import 'package:flutter/material.dart';
 
@@ -198,6 +199,15 @@ class HomePage extends StatelessWidget {
                 );
               },
               child: Text("Maps 1 page"),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Maps2Page()),
+                );
+              },
+              child: Text("Maps 2 page"),
             ),
           ],
         ),
