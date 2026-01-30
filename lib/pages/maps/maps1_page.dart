@@ -13,6 +13,27 @@ class _Maps1PageState extends State<Maps1Page> {
   Position? currentPosition;
   Marker? mypositionMarker;
   Set<Marker> markers = {};
+  BitmapDescriptor? _customMarker;
+
+  Future<void> _setCustomMarker() async {
+    _customMarker = await BitmapDescriptor.fromAssetImage(
+      ImageConfiguration(size: Size(48, 48)),
+      "assets/markers/orange.png",
+    );
+
+    markers.add(
+      Marker(
+        markerId: MarkerId(markers.length.toString()),
+        position: LatLng(currentPosition!.latitude, currentPosition!.longitude),
+        icon: _customMarker!,
+        infoWindow: InfoWindow(
+          title: "Marcador personalizado",
+          snippet: "Ubicación en Lima",
+        ),
+      ),
+    );
+    print(markers.length);
+  }
 
   Future<void> getPosition() async {
     bool serviceEnabled;
@@ -40,11 +61,12 @@ class _Maps1PageState extends State<Maps1Page> {
       Position position = await Geolocator.getCurrentPosition();
       print("lat: ${position.latitude} - ${position.longitude}");
       currentPosition = position;
-      mypositionMarker = Marker(
-        markerId: MarkerId("myPos"),
-        position: LatLng(position.latitude, position.longitude),
-      );
-      markers.add(mypositionMarker!);
+      // mypositionMarker = Marker(
+      //   markerId: MarkerId("myPos"),
+      //   position: LatLng(position.latitude, position.longitude),
+      // );
+      // markers.add(mypositionMarker!);
+      await _setCustomMarker();
       setState(() {});
     } catch (e) {
       print("error: $e");
@@ -77,6 +99,7 @@ class _Maps1PageState extends State<Maps1Page> {
                   Marker newMarker = Marker(
                     markerId: MarkerId(markers.length.toString()),
                     position: latLng,
+                    icon: _customMarker!,
                     infoWindow: InfoWindow(
                       title: "Marcador: ${markers.length}",
                       snippet:
